@@ -24,7 +24,6 @@ const CreateEventForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log(formData);
     // You can make an API call or perform any other necessary actions with the form data
   };
 

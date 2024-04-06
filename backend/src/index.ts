@@ -6,6 +6,10 @@ import { use } from 'hono/jsx'
 import { userRouter } from './routes/user'
 import { createEventRouter } from './routes/createEvent'
 import { eventsRouter } from './routes/events'
+import { eventRouter } from './routes/event'
+import { registerRouter } from './routes/register'
+import { registeredEventRouter } from './routes/registeredEvents'
+import { unregisteredEventRouter } from './routes/unregisterEvents'
 
 
 
@@ -23,11 +27,11 @@ const app = new Hono<{
 app.route('/api/v1/user', userRouter);
 app.route('/api/v1/createEvent', createEventRouter);
 app.route('/api/v1/events', eventsRouter);
+app.route('/api/v1/event', eventRouter);
+app.route('/api/v1/register', registerRouter);
+app.route('/api/v1/registeredEvents', registeredEventRouter);
+app.route('/api/v1/unregisterEvent', unregisteredEventRouter);
 
-
-// app.route('/api/v1/registration', registrationRouter);
-// app.route('/api/v1/event', userRouter);
-// app.route('/api/v1/user', userRouter);
 
 
 

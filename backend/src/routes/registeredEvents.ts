@@ -4,7 +4,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { decode, sign, verify } from 'hono/jwt'
 import { cors } from 'hono/cors'
 
-export const eventsRouter = new Hono<{
+export const registeredEventRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string
     JWT_SECRET: string
@@ -14,9 +14,11 @@ export const eventsRouter = new Hono<{
   }
 }>()
 
-eventsRouter.use('/*', cors())
+registeredEventRouter.use('/*', cors())
 
-eventsRouter.use('/*', async (c, next) => {
+registeredEventRouter.use('/*', async (c, next) => {
+
+
   const authHeader = c.req.header('Authorization') || ''
   const token = authHeader.split(' ')[1]
 
@@ -33,26 +35,32 @@ eventsRouter.use('/*', async (c, next) => {
     c.status(403)
     return c.json({ message: 'You are not logged in' })
   }
+
 })
 
-eventsRouter.get('/', async (c) => {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env?.DATABASE_URL,
-    }).$extends(withAccelerate());
-  
-    const events = await prisma.event.findMany({
+
+registeredEventRouter.get('/', async (c) => {
+  const userId = parseInt(c.get('userId'));
+  const prisma = new PrismaClient({ datasourceUrl: c.env?.DATABASE_URL });
+
+  try {
+    const registeredEvents = await prisma.user.findUnique({
+      where: { id: userId },
       select: {
-        id: true,
-        title: true,
-        date: true,
-        time: true,
-        location: true,
-        description: true,
+        events: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
       },
     });
 
-    console.log(events);
-    return c.json(events); 
-  });
-
+    return c.json(registeredEvents.events);
+  } catch (error) {
+    console.error(error);
+    c.status(500);
+    return c.json({ message: 'An error occurred' });
+  }
+});
   

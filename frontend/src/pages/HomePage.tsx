@@ -38,8 +38,10 @@ const Dashboard: React.FC = () => {
   }, []); // Empty dependency array ensures fetching only once on initial render
 
   const handleEventClick = (eventId: string) => {
+
     navigate(`/event/${eventId}`);
   };
+
 
   return (
     <div className="container mx-auto py-8">
@@ -50,11 +52,13 @@ const Dashboard: React.FC = () => {
             <EventCard
               key={event.id}
               title={event.title}
-              Time={event.time} // Assuming 'time' field is present
+              time={event.time}
               date={event.date}
               location={event.location}
-              description={event.description}
-              onEventClick={handleEventClick}
+              description={event.description.length > 30 ? `${event.description.slice(0, 30)}...` : event.description}
+              onEventClick={()=>{
+                handleEventClick(event.id)
+              }}
             />
           ))}
         </div>

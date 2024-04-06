@@ -11,25 +11,24 @@ const SignupPage: React.FC = () => {
 
   const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/user/signup`, {
-        email, 
-        password, 
-        name
+        email,
+        password,
+        name,
       });
-      const data: { jwt: string, name : string } = response.data;
-      localStorage.setItem("token", data.jwt);
-      navigate("/");
-    } catch(e) {
-        console.log(e);
-        alert("Error while signing up")
+      const data: { jwt: string; name: string } = response.data;
+      localStorage.setItem('token', data.jwt);
+      navigate('/home');
+    } catch (e) {
+      console.log(e);
+      alert('Error while signing up');
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-purple-700 to-pink-600">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="signup-container flex justify-center items-center h-screen bg-gray-100">
+      <div className="signup-form bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Sign Up</h2>
         <form onSubmit={handleSignup} className="space-y-6">
           <Input
@@ -55,13 +54,13 @@ const SignupPage: React.FC = () => {
           />
           <button
             type="submit"
-            className="w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
           >
             Sign Up
           </button>
           <p className="text-center text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="text-purple-500 hover:text-purple-700 transition duration-300">
+            <Link to="/" className="text-blue-500 hover:text-blue-700 transition duration-300">
               Login
             </Link>
           </p>

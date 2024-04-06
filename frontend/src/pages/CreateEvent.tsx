@@ -30,14 +30,13 @@ const CreateEvent: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log(formData)
       await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/createEvent`, formData,
       {
         headers : {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       })
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.error('Error creating event:', error);
     }

@@ -45,13 +45,15 @@ createEventRouter.post('/', async (c) => {
 
   const body = await c.req.json()
   const userId = parseInt(c.get('userId'))
+  console.log(body);
+  console.log(userId);
 
   try {
     const event = await prisma.event.create({
       data: {
         title: body.title,
-        Date: new Date(body.date),
-        Time: body.time,
+        date: new Date(body.date),
+        time: body.time,
         location: body.location,
         description: body.description,
         organizerId : userId,
